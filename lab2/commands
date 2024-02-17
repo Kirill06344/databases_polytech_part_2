@@ -11,7 +11,10 @@ GRANT SELECT, UPDATE, INSERT ON player to test;
 GRANT SELECT(name), UPDATE(name) ON team to test;
 GRANT SELECT ON manager to test;
 
+GRANT SELECT on player_view to test;
+GRANT UPDATE(name) on team_view to test;
 
+\dp
 
 
 

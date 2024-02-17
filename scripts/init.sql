@@ -9,13 +9,15 @@ create table player
 create table team
 (
     id   serial primary key,
-    name text
+    name text,
+    amount_of_trophies int
 );
 
 create table manager
 (
     id   serial primary key,
-    name text
+    name text,
+    amount_of_teams int
 );
 
 INSERT INTO player (name, salary, amount_of_trophies)
