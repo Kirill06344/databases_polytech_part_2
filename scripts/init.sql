@@ -5,6 +5,19 @@ create table player
     salary             decimal(12, 2),
     amount_of_trophies int
 );
+
+create table team
+(
+    id   serial primary key,
+    name text
+);
+
+create table manager
+(
+    id   serial primary key,
+    name text
+);
+
 INSERT INTO player (name, salary, amount_of_trophies)
 VALUES ('LeBron James', 35000000.00, 4),
        ('Kevin Durant', 38000000.00, 2),

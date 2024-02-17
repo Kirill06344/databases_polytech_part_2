@@ -1,0 +1,18 @@
+
+
+#Создать пользователя test
+createuser -h localhost -p 5432 -U stewie -P test
+
+#Подключение с теста
+psql -h localhost -p 5432 -U test -d basketball_db
+
+#Раздача прав от пользоватлея stewie пользователю test
+GRANT SELECT, UPDATE, INSERT ON player to test;
+GRANT SELECT(name), UPDATE(name) ON team to test;
+GRANT SELECT ON manager to test;
+
+
+
+
+
+
