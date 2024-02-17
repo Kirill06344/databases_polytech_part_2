@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      POSTGRES_USER: "stewie"
+      POSTGRES_PASSWORD: "stewie"
+      POSTGRES_DB: "basketball_db"
+    ports:
+      - "5432:5432"
