@@ -18,8 +18,8 @@ create trigger salary_trigger
     for each row
 execute procedure check_salary();
 
-insert into player (name, salary, amount_of_trophies)
-VALUES ('asas', -213.0, 3);
+insert into player (name, salary, team_id, manager_id)
+VALUES ('Oleg Petrov', -213.0, 1,1);
 
 begin transaction;
 
