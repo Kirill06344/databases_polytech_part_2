@@ -21,9 +21,9 @@ commit;
 --Serialization anomaly
 begin transaction isolation level repeatable read;
 
-select * from player where amount_of_trophies = 1;
+select * from player where team_id = 1;
 
-insert into player (name, salary, amount_of_trophies) VALUES ('Vladimir Babin', 1200.00, 2);
+insert into player (name, salary, team_id) VALUES ('Vladimir Babin', 1200.00, 2);
 
 commit;
 

@@ -2,7 +2,7 @@
 begin transaction isolation level repeatable read;
 
 update player
-set amount_of_trophies = amount_of_trophies + 1
+set salary = salary + 50000
 where id = 1;
 
 commit;
@@ -10,16 +10,16 @@ commit;
 --Fantom reading
 begin transaction isolation level repeatable read;
 
-insert into player(name, salary, amount_of_trophies)
-values ('Timofey Mozgov', 230000.00, 2);
+insert into player(name, salary, team_id, manager_id)
+values ('Timofey Mozgov', 230000.00, 2, 2);
 
 commit;
 
 --Serialization anomaly
 begin transaction isolation level repeatable read;
 
-select * from player where amount_of_trophies = 2;
+select * from player where team_id = 2;
 
-insert into player (name, salary, amount_of_trophies) VALUES ('Yura Babin', 1200.00, 1);
+insert into player (name, salary, team_id) VALUES ('Yura Babin', 1200.00, 1);
 
 commit;

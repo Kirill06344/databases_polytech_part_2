@@ -1,20 +1,20 @@
 -- Dirty read
 begin transaction isolation level read committed;
 
-select amount_of_trophies
+select salary
 from player
-where id = 19;
+where id = 1;
 
 commit;
 
 -- Unrepeatable read
 begin transaction isolation level read committed;
 
-select *
+select salary
 from player
 where id = 1;
 
-select *
+select salary
 from player
 where id = 1;
 rollback;
@@ -22,10 +22,9 @@ rollback;
 --Lost update
 begin transaction isolation level read committed;
 
-select amount_of_trophies from player where id = 1;
+select salary from player where id = 1;
 
-update player set amount_of_trophies = 3 where id = 1;
+update player set salary = salary - 100000 where id = 1;
 
 commit;
 
-select * from player where id = 1;
