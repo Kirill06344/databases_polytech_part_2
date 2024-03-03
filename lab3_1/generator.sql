@@ -23,10 +23,9 @@ for i in range (rows):
 
 
 retail_ids = [row["id"] for row in plpy.execute("SELECT id FROM retail_center")]
-events_ids = [row["seq_number"] for row in plpy.execute("SELECT seq_number FROM transportation_event")]
+event_ids = [row["seq_number"] for row in plpy.execute("SELECT seq_number FROM transportation_event")]
 
-shipped_item_rows = 100
-item_transportation = 10000000
+shipped_item_rows = 1000000
 try:
     with plpy.subtransaction():
         for i in range (shipped_item_rows):
@@ -36,6 +35,20 @@ try:
 
             plan.execute([i+1, random.choice(retail_ids), decimal.Decimal(random.randrange(155, 389))/100, random.uniform(1.25, 100.25),
             random.uniform(1.25, 100.25), get_random_string(random.randint(2,15)), datetime.now(timezone.utc)])
+except plpy.SPIError as e:
+    result = "error transferring funds: %s" % e.args
+else:
+    result = "funds transferred correctly"
+plpy.info(result)
+
+item_ids = [row["item_num"] for row in plpy.execute("SELECT item_num from shipped_item")]
+item_transportation_rows = 1000000
+try:
+    with plpy.subtransaction():
+        for i in range (item_transportation_rows):
+            plan = plpy.prepare("INSERT INTO item_transportation(transportation_event_seq_number,shipped_item_item_num)"+
+                "values($1,$2)", ["integer", "integer"])
+            plan.execute([random.choice(event_ids), random.choice(item_ids)])
 except plpy.SPIError as e:
     result = "error transferring funds: %s" % e.args
 else:
