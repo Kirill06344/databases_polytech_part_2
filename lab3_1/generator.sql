@@ -65,4 +65,4 @@ it = item_data(5000000)
 write_to_csv(it, 'item.csv')
 plpy.execute("COPY item_transportation(transportation_event_seq_number,shipped_item_item_num) FROM 'item.csv' CSV")
 
-$$ language plpython3u
+$$ language plpython3u;
