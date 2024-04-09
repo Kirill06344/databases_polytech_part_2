@@ -29,16 +29,24 @@ def tr_data(rows):
 def sp_data(rows):
     data = []
     retail_ids = [row["id"] for row in plpy.execute("SELECT id FROM retail_center")]
+    event_ids = [row["seq_number"] for row in plpy.execute("SELECT seq_number FROM transportation_event")]
     for i in range (rows):
         data.append((str(i+1), str(random.choice(retail_ids)), str(decimal.Decimal(random.randrange(155, 389))/100), str(random.uniform(1.25, 100.25)),
             str(random.uniform(1.25, 100.25)), rand_str(random.randint(2,15)), str(datetime.now(timezone.utc))))
+    return data
+
+def item_data(rows):
+    data = []
+    item_ids = [row["item_num"] for row in plpy.execute("SELECT item_num from shipped_item")]
+    event_ids = [row["seq_number"] for row in plpy.execute("SELECT seq_number FROM transportation_event")]
+    for i in range (rows):
+        data.append((str(random.choice(event_ids)), str(random.choice(item_ids))))
     return data
 
 def write_to_csv(random_data, csv_name):
     with open(csv_name, 'w+') as f:
         for record in random_data:
             f.write(','.join(record) + '\n')
-
 
 rt_data = rt_data(10)
 write_to_csv(rt_data, 'retail.csv')
@@ -52,4 +60,9 @@ s_data = sp_data(1000000)
 write_to_csv(s_data, 'shipped.csv')
 plpy.execute("COPY shipped_item(item_num, retail_center_id, weight, dimension,"+
             "insurance_amt, destination, final_delivery_date) FROM 'shipped.csv' CSV")
+
+it = item_data(5000000)
+write_to_csv(it, 'item.csv')
+plpy.execute("COPY item_transportation(transportation_event_seq_number,shipped_item_item_num) FROM 'item.csv' CSV")
+
 $$ language plpython3u
